@@ -1,0 +1,15 @@
+CricketSkillIntent Latest update for team {team}
+CricketSkillIntent Latest cricket score for {team}
+CricketSkillIntent Live cricket score for {team}
+CricketSkillIntent Live score for team {team}
+CricketSkillIntent {team} cricket score update
+CricketSkillIntent {team} score update
+CricketSkillIntent current score for team {team}
+CricketSkillIntent current score for {team}
+CricketSkillIntent {team} update
+CricketSkillIntent team {team} update
+
+CricketSkillHelpIntent help me
+CricketSkillHelpIntent what can you do
+CricketSkillHelpIntent list of vehicle commands
+CricketSkillHelpIntent what can I ask you

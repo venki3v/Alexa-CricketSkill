@@ -1,0 +1,17 @@
+{
+ "intents": [
+   {
+     "intent": "CricketSkillIntent",
+     "slots": [
+        {
+          "name": "team",
+          "type": "LIST_OF_TEAMS"
+        }
+      ]
+   },
+   {
+     "intent": "CricketSkillHelpIntent",
+     "slots": []
+   }
+ ]
+}
