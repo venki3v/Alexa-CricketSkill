@@ -31,7 +31,7 @@ https.get(urlPath, function(res) {
                 if (livejsondata.hasOwnProperty(key)) {
                     var teams = livejsondata[key].description;
                     var teamarray = teams.split(' v ');
-                    //console.log(teamarray);
+                    console.log(teamarray);
 
                     var matchID = livejsondata[key].unique_id;
                     //console.log(teams);

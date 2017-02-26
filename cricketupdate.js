@@ -2,9 +2,10 @@
   var urlPath = 'https://cricapi.com/api/cricket?apikey=t0pCDpe6UHSj54ZfbFqWZ12bJHo1';
   var https= require('https');
   var allout = false;
-  var SELTEAM = "INDIA";
+  var SELTEAM = "SRI LANKA"
   var teamPlaying = false;
   var responseText = "Getting cricket score updates";
+  var c = 0;
   https.get(urlPath, function(res) {
     //console.log('STATUS: ' + res.statusCode);
     //var livejson = JSON.parse(matchdata);
@@ -23,7 +24,7 @@
             // console.log("status string ="+chunk);
              var livejson = JSON.parse(chunk);
              var livejsondata = livejson.data;
-             //console.log (livejsondata);
+             console.log (livejsondata.length);
             for (var key in livejsondata) {
                 if (livejsondata.hasOwnProperty(key)) {
                   var teams = livejsondata[key].description;
@@ -32,7 +33,7 @@
 
                 var matchID = livejsondata[key].unique_id; 
                   //console.log(teams);
-                    if (teamarray[0].toUpperCase().startsWith(SELTEAM.toUpperCase()) || teamarray[1].toUpperCase().startsWith(SELTEAM.toUpperCase())){
+                    if (((teamarray[0].toUpperCase().indexOf(SELTEAM.toUpperCase())) == 0) || ((teamarray[1].toUpperCase().indexOf(SELTEAM.toUpperCase())) == 0)){
                      	teamPlaying = true;
                      	//console.log("true");
                      	var matchURL = "https://cricapi.com/api/cricketScore?apikey=t0pCDpe6UHSj54ZfbFqWZ12bJHo1&unique_id="+matchID;
@@ -41,7 +42,8 @@
                      	    res2.on('data', function (chunk2) {	
 	                            //console.log(res2.statusCode)
 	                            if (res.statusCode == 200){
-						             //console.log("success2");
+	                            	c = c +1;
+						             console.log(c);
 						            // console.log("status string ="+chunk);
 						             var matchjson = JSON.parse(chunk2);
 						             console.log(matchjson);
@@ -53,6 +55,7 @@
 						             console.log (matchstarted);
                                      if (matchstarted == true){
 						             var score = matchjsondata.split(' ');
+						             console.log(score[2]);
 						             var runwickets = score[1];
 						             						            // console.log(runwickets);
 						             var runarray = runwickets.split('/');
@@ -68,8 +71,9 @@
 						              // console.log("wickets="+runarray[1]);
 						             }  
 						             var overs = score[2].split('(');
+						             console.log("overs="+overs[1]);
 						             overs = overs[1].replace(',','');
-						             //console.log("overs="+overs[1]);
+						             
 						             var players = matchjsondata.split(',');
 						            // console.log(players.length);
 						            // console.log(players)
@@ -83,7 +87,7 @@
 						            // console.log(players[1].split(' '));
 						             player2 = players[2].split(' ');
 						             //console.log(player2);
-						             if ((player2.toString()).includes('/')){
+						             if ((player2.toString()).indexOf('/') !== -1){
                                         
 							            //console.log (player2[1]+player2[2]);
 							            //console.log (player2[3].replace(')',''));
@@ -134,13 +138,19 @@
                                   	  responseText = latestheadlines+" "+" Match has not started yet. Schedule to start at "+matchjson.dateTimeGMT+" GMT.";
                                   	  console.log(responseText);
                                   }
+                                     
 
 
 						        } else {
                                       responseText = "Unable to fetch requested cricket score update";
                                       console.log(responseText);
 						        }   
-						    });    
+						    });
+						    res2.on('end', function() {
+						        console.log("end of second response");
+						    }); 
+
+						       
                         
                      		
                      	});	
@@ -153,6 +163,10 @@
         }
       
    });
+
+   res.on('end', function() {
+						        console.log("end of first response="+teamPlaying);
+						    });
     
     //console.log(responseText);
    
