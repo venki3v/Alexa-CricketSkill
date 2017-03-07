@@ -2,7 +2,7 @@
   var urlPath = 'https://cricapi.com/api/cricket?apikey=t0pCDpe6UHSj54ZfbFqWZ12bJHo1';
   var https= require('https');
   var allout = false;
-  var SELTEAM = "SRI LANKA"
+  var SELTEAM = "AUSTRALIA";
   var teamPlaying = false;
   var responseText = "Getting cricket score updates";
   var c = 0;
@@ -24,11 +24,12 @@
             // console.log("status string ="+chunk);
              var livejson = JSON.parse(chunk);
              var livejsondata = livejson.data;
-             console.log (livejsondata.length);
+            // console.log (livejsondata.length);
             for (var key in livejsondata) {
                 if (livejsondata.hasOwnProperty(key)) {
                   var teams = livejsondata[key].description;
                   var teamarray = teams.split(' v ');
+                  c = c+1;
                   //console.log(teamarray);
 
                 var matchID = livejsondata[key].unique_id; 
@@ -42,20 +43,20 @@
                      	    res2.on('data', function (chunk2) {	
 	                            //console.log(res2.statusCode)
 	                            if (res.statusCode == 200){
-	                            	c = c +1;
-						             console.log(c);
+	                            	//c = c +1;
+						            console.log("mathced orde"+c);
 						            // console.log("status string ="+chunk);
 						             var matchjson = JSON.parse(chunk2);
-						             console.log(matchjson);
+						             //console.log(matchjson);
 						             latestheadlines = "Latest score update for "+ matchjson['team-1']+ " vs "+matchjson['team-2']+" "+matchjson.type+" cricket match.";
 						             inningsreqmt = matchjson['innings-requirement']
 						            // console.log('innings='+inningsreqmt);
 						             var matchjsondata = matchjson.score;
 						             var matchstarted = matchjson.matchStarted;
-						             console.log (matchstarted);
+						             console.log ("match started="+matchstarted);
                                      if (matchstarted == true){
 						             var score = matchjsondata.split(' ');
-						             console.log(score[2]);
+						             //console.log(score);
 						             var runwickets = score[1];
 						             						            // console.log(runwickets);
 						             var runarray = runwickets.split('/');
@@ -154,6 +155,7 @@
                         
                      		
                      	});	
+                      break;
                     } 
                       
                  } 
@@ -166,6 +168,10 @@
 
    res.on('end', function() {
 						        console.log("end of first response="+teamPlaying);
+						        if (teamPlaying == false){
+								   	responseText = "your favorite team is not playing today";
+								   	console.log(responseText);
+								   }
 						    });
     
     //console.log(responseText);
@@ -174,10 +180,7 @@
       //res.setEncoding('utf8');
       
     });
-   if (teamPlaying == false){
-   	responseText = "your favorite team is not playing today";
-   	console.log(responseText);
-   }
+   
     
      
 
